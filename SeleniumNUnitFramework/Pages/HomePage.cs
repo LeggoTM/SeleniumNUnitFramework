@@ -13,21 +13,31 @@ namespace SeleniumNUnitFramework.Pages
         public HomePage(IWebDriver driver) => _driver = driver;
 
         // Navbar Links
-        private By WebsiteLogo = By.XPath("//img[@alt=\"Website for automation practice\"]");
-        private By HomeButton = By.XPath("//a[contains(text(), \"Home\")]");
-        private By ProductsButton = By.XPath("//a[contains(text(), 'Products')]");
-        private By CartButton = By.XPath("//a[contains(text(), 'Cart')]");
-        private By SignupLoginButton = By.XPath("//a[contains(text(), 'Signup / Login')]");
-        private By TestCasesButton = By.XPath("//a[contains(text(), 'Test Cases')]");
-        private By APITestingButton = By.XPath("//a[contains(text(), 'API Testing')]");
-        private By VideoTutorialsButton = By.XPath("//a[contains(text(), 'Video Tutorials')]");
-        private By ContactUsButton = By.XPath("//a[contains(text(), 'Contact us')]");
+        private By websiteLogo = By.XPath("//img[@alt=\"Website for automation practice\"]");
+        private By homeButton = By.XPath("//a[contains(text(), \"Home\")]");
+        private By productsButton = By.XPath("//a[contains(text(), 'Products')]");
+        private By cartButton = By.XPath("//a[contains(text(), 'Cart')]");
+        private By signupLoginButton = By.XPath("//a[contains(text(), 'Signup / Login')]");
+        private By testCasesButton = By.XPath("//a[contains(text(), 'Test Cases')]");
+        private By apiTestingButton = By.XPath("//a[contains(text(), 'API Testing')]");
+        private By videoTutorialsButton = By.XPath("//a[contains(text(), 'Video Tutorials')]");
+        private By contactUsButton = By.XPath("//a[contains(text(), 'Contact us')]");
+        private By logoutButton = By.XPath("//a[contains(text(), 'Logout')]");
+        private By deleteAccountButton = By.XPath("//a[contains(text(), 'Delete Account')]");
+        private By loggedInAs = By.XPath("//a[contains(text(), 'Logged in as')]");
 
 
         public SignUpPage NavigateToSignupLoginPage()
         {
-            _driver.FindElement(SignupLoginButton).Click();
+            _driver.FindElement(signupLoginButton).Click();
             return new SignUpPage(_driver);
+        }
+
+        public string loggedInUser() => _driver.FindElement(loggedInAs).Text;
+        public LoginPage ClickLogout()
+        {
+            _driver.FindElement(logoutButton).Click();
+            return new LoginPage(_driver);
         }
     }
 }

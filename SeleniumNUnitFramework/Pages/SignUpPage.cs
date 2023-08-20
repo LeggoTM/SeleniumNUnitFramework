@@ -138,22 +138,13 @@ namespace SeleniumNUnitFramework.Pages
             SelectBirthDay(birthDay);
             SelectBirthMonth(birthMonth);
             SelectBithYear(birthYear);
-            if (signupNewsletter)
-            {
-                SignupNewsletter();
-            }
-            if (optSplOffer)
-            {
-                OptSplOffer();
-            }
+            if (signupNewsletter) SignupNewsletter();
+            if (optSplOffer) OptSplOffer();
             TypeFirstName(firstName);
             TypeLastName(lastName);
             TypeCompany(company);
             TypeFirstAddress(address1);
-            if (address2 != null)
-            {
-                TypeSecondAddress(address2);
-            }
+            if (address2 != null) TypeSecondAddress(address2);
             SelectCountry(country);
             TypeState(state);
             TypeCity(city);
