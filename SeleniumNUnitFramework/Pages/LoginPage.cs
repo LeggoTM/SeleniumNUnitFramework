@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using SeleniumNUnitFramework.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SeleniumNUnitFramework.Pages
 {
-    internal class LoginPage
+    internal class LoginPage : BaseUtils
     {
         private readonly IWebDriver _driver;
         public LoginPage(IWebDriver driver) => _driver = driver;
@@ -36,5 +37,7 @@ namespace SeleniumNUnitFramework.Pages
             ClickSignupButton();
             return new SignUpPage(_driver);
         }
+
+        public void WaitForPageToLoad() => WaitUntilElementIsDisplayed(driver: _driver, locator: loginButton, timeoutInSeconds: 10);
     }
 }

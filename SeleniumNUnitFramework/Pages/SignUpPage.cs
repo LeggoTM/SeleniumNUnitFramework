@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using SeleniumNUnitFramework.Utilities;
 
 namespace SeleniumNUnitFramework.Pages
 {
@@ -30,7 +31,7 @@ namespace SeleniumNUnitFramework.Pages
         India
     }
 
-    internal class SignUpPage
+    internal class SignUpPage : BaseUtils
     {
         private readonly IWebDriver _driver;
         public SignUpPage(IWebDriver driver) => _driver = driver;
@@ -130,7 +131,7 @@ namespace SeleniumNUnitFramework.Pages
             string city,
             int zipcode,
             int phoneNumber,
-            string address2 = null
+            string? address2 = null
             )
         {
             SelectTitle(title);
@@ -153,6 +154,8 @@ namespace SeleniumNUnitFramework.Pages
             ClickCreateAccout();
             return new AccountCreatedPage(_driver);
         }
+
+        public void WaitForPageToLoad() => WaitUntilElementIsDisplayed(driver: _driver, locator: radioMr, timeoutInSeconds: 10);
 
     }
 }

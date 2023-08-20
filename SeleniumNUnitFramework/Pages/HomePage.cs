@@ -1,13 +1,9 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SeleniumNUnitFramework.Utilities;
 
 namespace SeleniumNUnitFramework.Pages
 {
-    internal class HomePage
+    internal class HomePage : BaseUtils
     {
         private readonly IWebDriver _driver;
         public HomePage(IWebDriver driver) => _driver = driver;
@@ -26,11 +22,12 @@ namespace SeleniumNUnitFramework.Pages
         private By deleteAccountButton = By.XPath("//a[contains(text(), 'Delete Account')]");
         private By loggedInAs = By.XPath("//a[contains(text(), 'Logged in as')]");
 
+        private By deletedMessageText = By.XPath("//*[@data-qa=\"account-deleted\"]");
 
-        public SignUpPage NavigateToSignupLoginPage()
+        public LoginPage NavigateToSignupLoginPage()
         {
             _driver.FindElement(signupLoginButton).Click();
-            return new SignUpPage(_driver);
+            return new LoginPage(_driver);
         }
 
         public string loggedInUser() => _driver.FindElement(loggedInAs).Text;
@@ -38,6 +35,14 @@ namespace SeleniumNUnitFramework.Pages
         {
             _driver.FindElement(logoutButton).Click();
             return new LoginPage(_driver);
+        }
+
+        public void WaitForPageToLoad() => WaitUntilElementIsDisplayed(driver: _driver, locator: websiteLogo, timeoutInSeconds: 10);
+        public string GetDeletedMessageText() => _driver.FindElement(deletedMessageText).Text;
+
+        public void ClickDeleteAccount()
+        {
+            _driver.FindElement(deleteAccountButton).Click();
         }
     }
 }
