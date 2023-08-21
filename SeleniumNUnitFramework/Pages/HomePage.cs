@@ -29,20 +29,19 @@ namespace SeleniumNUnitFramework.Pages
             _driver.FindElement(signupLoginButton).Click();
             return new LoginPage(_driver);
         }
-
-        public string loggedInUser() => _driver.FindElement(loggedInAs).Text;
         public LoginPage ClickLogout()
         {
             _driver.FindElement(logoutButton).Click();
             return new LoginPage(_driver);
         }
-
-        public void WaitForPageToLoad() => WaitUntilElementIsDisplayed(driver: _driver, locator: websiteLogo, timeoutInSeconds: 10);
-        public string GetDeletedMessageText() => _driver.FindElement(deletedMessageText).Text;
-
         public void ClickDeleteAccount()
         {
             _driver.FindElement(deleteAccountButton).Click();
         }
+
+        public string GetLoggedInUser() => _driver.FindElement(loggedInAs).Text;
+        public void WaitForPageToLoad() => WaitUntilElementIsDisplayed(driver: _driver, locator: websiteLogo, timeoutInSeconds: 10);
+        public string GetDeletedMessageText() => _driver.FindElement(deletedMessageText).Text;
+
     }
 }

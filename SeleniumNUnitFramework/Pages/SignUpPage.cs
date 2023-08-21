@@ -73,6 +73,8 @@ namespace SeleniumNUnitFramework.Pages
                 case TitleSelect.Mrs:
                     _driver.FindElement(radioMrs).Click();
                     break;
+                default:
+                    throw new ArgumentException("Invalid title");
             }
         }
 

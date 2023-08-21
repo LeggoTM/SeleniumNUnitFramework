@@ -40,12 +40,59 @@ namespace SeleniumNUnitFramework.Tests
                 );
             accountCreatedPage.WaitForPageToLoad();
             Assert.That(accountCreatedPage.GetCreatedMessageText(), Is.EqualTo("ACCOUNT CREATED!"));
-            
+
             HomePage loggedInPage = accountCreatedPage.ClickContinueButton();
             loggedInPage.WaitForPageToLoad();
-            Assert.That(loggedInPage.loggedInUser(), Does.Contain("SeleniumBeginner"));
+            Assert.That(loggedInPage.GetLoggedInUser(), Does.Contain("SeleniumBeginner"));
             loggedInPage.ClickDeleteAccount();
             Assert.That(loggedInPage.GetDeletedMessageText(), Is.EqualTo("ACCOUNT DELETED!"));
+        }
+
+        [Test]
+        [Category("Login")]
+        public void LoginAndLogoutValid()
+        {
+            HomePage homePage = new HomePage(driver);
+            homePage.WaitForPageToLoad();
+            Assert.That(driver.Title, Is.EqualTo("Automation Exercise"));
+
+            LoginPage loginPage = homePage.NavigateToSignupLoginPage();
+            loginPage.WaitForPageToLoad();
+            HomePage loggedInPage = loginPage.LoginAs("validuser77@mail.com", "validuser123");
+            loggedInPage.WaitForPageToLoad();
+            Assert.That(loggedInPage.GetLoggedInUser(), Does.Contain("Valid User"));
+            LoginPage loggedOutPage = loggedInPage.ClickLogout();
+            loggedOutPage.WaitForPageToLoad();
+            Assert.That(driver.Title, Is.EqualTo("Automation Exercise - Signup / Login"));
+        }
+
+        [Test]
+        [Category("Login")]
+        public void LoginInvalid()
+        {
+            HomePage homePage = new HomePage(driver);
+            homePage.WaitForPageToLoad();
+            Assert.That(driver.Title, Is.EqualTo("Automation Exercise"));
+
+            LoginPage loginPage = homePage.NavigateToSignupLoginPage();
+            loginPage.WaitForPageToLoad();
+            loginPage.LoginAs("validuser77@mail.com", "valid");
+            Assert.That(loginPage.GetErrorMessage(), Is.EqualTo("Your email or password is incorrect!"));
+        }
+
+        [Test]
+        public void RegisterExistingUser()
+        {
+            HomePage homePage = new HomePage(driver);
+            homePage.WaitForPageToLoad();
+            Assert.That(driver.Title, Is.EqualTo("Automation Exercise"));
+
+            LoginPage loginPage = homePage.NavigateToSignupLoginPage();
+            loginPage.WaitForPageToLoad();
+            Assert.That(driver.Title, Is.EqualTo("Automation Exercise - Signup / Login"));
+
+            loginPage.SignupAs(name: "SeleniumBeginner", email: "validuser77@mail.com");
+            Assert.That(loginPage.GetErrorMessage(), Is.EqualTo("Email Address already exist!"));
         }
     }
 }
