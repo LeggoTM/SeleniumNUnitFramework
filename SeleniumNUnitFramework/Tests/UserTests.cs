@@ -14,7 +14,8 @@ namespace SeleniumNUnitFramework.Tests
         public static IEnumerable<TestCaseData> TestDataForInvalidLogin()
         {
             yield return new TestCaseData(GetJsonParser().ExtractJsonData(tokenName: "invalidLoginEmail"), GetJsonParser().ExtractJsonData(tokenName: "invalidLoginPassword"));
-
+            yield return new TestCaseData(GetJsonParser().ExtractJsonData(tokenName: "validLoginEmail"), GetJsonParser().ExtractJsonData(tokenName: "invalidLoginPassword"));
+            yield return new TestCaseData(GetJsonParser().ExtractJsonData(tokenName: "invalidLoginEmail"), GetJsonParser().ExtractJsonData(tokenName: "validLoginPassword"));
         }
 
         [TestCase(TestName = "Signup new user and delete", Ignore = "Long test")]
@@ -92,6 +93,15 @@ namespace SeleniumNUnitFramework.Tests
             loginPage.WaitForPageToLoad();
             loginPage.LoginAs(email, password);
             Assert.That(loginPage.GetErrorMessage(), Is.EqualTo("Your email or password is incorrect!"));
+        }
+
+        [Test]
+        [NonParallelizable]
+        public void FailingTest()
+        {
+            HomePage homePage = new HomePage(GetDriver());
+            homePage.WaitForPageToLoad();
+            Assert.That(GetDriver().Title, Is.EqualTo("Incorrect value"));
         }
 
         [TestCase(TestName = "Register existing user")]

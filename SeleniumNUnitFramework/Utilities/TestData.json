@@ -14,7 +14,7 @@
   "phoneNumber": 1234567890,
   "validLoginEmail": "validuser77@mail.com",
   "validLoginPassword": "validuser123",
-  "invalidLoginEmail": "validuser77@mail.com",
+  "invalidLoginEmail": "validuser@mail.com",
   "invalidLoginPassword": "valid",
   "existingUserName": "SeleniumBeginner",
   "existingUserEmail": "validuser77@mail.com"
