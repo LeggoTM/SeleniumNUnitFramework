@@ -61,7 +61,7 @@ namespace SeleniumNUnitFramework.Pages
         private By phoneField = By.XPath("//*[@data-qa=\"mobile_number\"]");
 
         private By createAccountButton = By.XPath("//*[@data-qa=\"create-account\"]");
-
+        
 
         public void SelectTitle(TitleSelect titleSelect)
         {
@@ -102,6 +102,8 @@ namespace SeleniumNUnitFramework.Pages
             countrySelectElement.SelectByText(country.ToString());
         }
 
+
+
         public void TypeSignupPassword(string pswd) => _driver.FindElement(passwordField).SendKeys(pswd);
         public void SignupNewsletter() => _driver.FindElement(signupNewsletterCheckbox).Click();
         public void OptSplOffer() => _driver.FindElement(splOffersCheckbox).Click();
@@ -115,6 +117,9 @@ namespace SeleniumNUnitFramework.Pages
         public void TypeZipcode(int zipcode) => _driver.FindElement(zipcodeField).SendKeys(zipcode.ToString());
         public void TypePhoneNumber(int phoneNumber) => _driver.FindElement(phoneField).SendKeys(phoneNumber.ToString());
         public void ClickCreateAccout() => _driver.FindElement(createAccountButton).Click();
+        public void WaitForPageToLoad() => WaitUntilElementIsDisplayed(driver: _driver, locator: radioMr, timeoutInSeconds: 10);
+
+        
 
         public AccountCreatedPage CreateAccountAs(
             TitleSelect title,
@@ -156,8 +161,5 @@ namespace SeleniumNUnitFramework.Pages
             ClickCreateAccout();
             return new AccountCreatedPage(_driver);
         }
-
-        public void WaitForPageToLoad() => WaitUntilElementIsDisplayed(driver: _driver, locator: radioMr, timeoutInSeconds: 10);
-
     }
 }

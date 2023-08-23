@@ -1,0 +1,21 @@
+﻿{
+  "signupName": "SeleniumBeginner",
+  "singupEmail": "seleniumbeginner77@mail.com",
+  "signupPassword": "selenium123",
+  "birthDay": 17,
+  "birthYear": 2000,
+  "firstName": "Selenium",
+  "lastName": "Beginner",
+  "company": "Mindfire",
+  "address1": "India",
+  "state": "Odisha",
+  "city": "BBSR",
+  "zipcode": 123456,
+  "phoneNumber": 1234567890,
+  "validLoginEmail": "validuser77@mail.com",
+  "validLoginPassword": "validuser123",
+  "invalidLoginEmail": "validuser77@mail.com",
+  "invalidLoginPassword": "valid",
+  "existingUserName": "SeleniumBeginner",
+  "existingUserEmail": "validuser77@mail.com"
+}

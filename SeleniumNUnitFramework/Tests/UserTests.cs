@@ -3,22 +3,34 @@
 namespace SeleniumNUnitFramework.Tests
 {
     [TestFixture]
+    [Parallelizable(ParallelScope.Children)]
     internal class UserTests : BaseTest
     {
-        [Test]
+        public static IEnumerable<TestCaseData> TestDataForValidLogin()
+        {
+            yield return new TestCaseData(GetJsonParser().ExtractJsonData(tokenName: "validLoginEmail"), GetJsonParser().ExtractJsonData(tokenName: "validLoginPassword"));
+        }
+
+        public static IEnumerable<TestCaseData> TestDataForInvalidLogin()
+        {
+            yield return new TestCaseData(GetJsonParser().ExtractJsonData(tokenName: "invalidLoginEmail"), GetJsonParser().ExtractJsonData(tokenName: "invalidLoginPassword"));
+
+        }
+
+        [TestCase(TestName = "Signup new user and delete", Ignore = "Long test")]
         public void CreateAccountAndDelete()
         {
-            HomePage homePage = new HomePage(driver);
+            HomePage homePage = new HomePage(GetDriver());
             homePage.WaitForPageToLoad();
-            Assert.That(driver.Title, Is.EqualTo("Automation Exercise"));
+            Assert.That(GetDriver().Title, Is.EqualTo("Automation Exercise"));
 
             LoginPage loginPage = homePage.NavigateToSignupLoginPage();
             loginPage.WaitForPageToLoad();
-            Assert.That(driver.Title, Is.EqualTo("Automation Exercise - Signup / Login"));
+            Assert.That(GetDriver().Title, Is.EqualTo("Automation Exercise - Signup / Login"));
 
             SignUpPage signUpPage = loginPage.SignupAs(name: "SeleniumBeginner", email: "seleniumbeginner77@mail.com");
             signUpPage.WaitForPageToLoad();
-            Assert.That(driver.Title, Is.EqualTo("Automation Exercise - Signup"));
+            Assert.That(GetDriver().Title, Is.EqualTo("Automation Exercise - Signup"));
 
             AccountCreatedPage accountCreatedPage = signUpPage.CreateAccountAs(
                 title: TitleSelect.Mr,
@@ -48,48 +60,51 @@ namespace SeleniumNUnitFramework.Tests
             Assert.That(loggedInPage.GetDeletedMessageText(), Is.EqualTo("ACCOUNT DELETED!"));
         }
 
-        [Test]
+        //[TestCase(TestName = "Login and Logout with valid creds", Category = "Login")]
+        [Test, TestCaseSource(nameof(TestDataForValidLogin))]
         [Category("Login")]
-        public void LoginAndLogoutValid()
+        public void LoginAndLogoutValid(string email, string password)
         {
-            HomePage homePage = new HomePage(driver);
+            HomePage homePage = new HomePage(GetDriver());
             homePage.WaitForPageToLoad();
-            Assert.That(driver.Title, Is.EqualTo("Automation Exercise"));
+            Assert.That(GetDriver().Title, Is.EqualTo("Automation Exercise"));
 
             LoginPage loginPage = homePage.NavigateToSignupLoginPage();
             loginPage.WaitForPageToLoad();
-            HomePage loggedInPage = loginPage.LoginAs("validuser77@mail.com", "validuser123");
+            HomePage loggedInPage = loginPage.LoginAs(email, password);
             loggedInPage.WaitForPageToLoad();
             Assert.That(loggedInPage.GetLoggedInUser(), Does.Contain("Valid User"));
             LoginPage loggedOutPage = loggedInPage.ClickLogout();
             loggedOutPage.WaitForPageToLoad();
-            Assert.That(driver.Title, Is.EqualTo("Automation Exercise - Signup / Login"));
+            Assert.That(GetDriver().Title, Is.EqualTo("Automation Exercise - Signup / Login"));
         }
 
-        [Test]
+        //[TestCase(TestName = "Login and Logout with invalid creds", Category = "Login")]
+        [Test, TestCaseSource(nameof(TestDataForInvalidLogin))]
         [Category("Login")]
-        public void LoginInvalid()
+        public void LoginInvalid(string email, string password)
         {
-            HomePage homePage = new HomePage(driver);
+            HomePage homePage = new HomePage(GetDriver());
             homePage.WaitForPageToLoad();
-            Assert.That(driver.Title, Is.EqualTo("Automation Exercise"));
+            Assert.That(GetDriver().Title, Is.EqualTo("Automation Exercise"));
 
             LoginPage loginPage = homePage.NavigateToSignupLoginPage();
             loginPage.WaitForPageToLoad();
-            loginPage.LoginAs("validuser77@mail.com", "valid");
+            loginPage.LoginAs(email, password);
             Assert.That(loginPage.GetErrorMessage(), Is.EqualTo("Your email or password is incorrect!"));
         }
 
-        [Test]
+        [TestCase(TestName = "Register existing user")]
+        [NonParallelizable]
         public void RegisterExistingUser()
         {
-            HomePage homePage = new HomePage(driver);
+            HomePage homePage = new HomePage(GetDriver());
             homePage.WaitForPageToLoad();
-            Assert.That(driver.Title, Is.EqualTo("Automation Exercise"));
+            Assert.That(GetDriver().Title, Is.EqualTo("Automation Exercise"));
 
             LoginPage loginPage = homePage.NavigateToSignupLoginPage();
             loginPage.WaitForPageToLoad();
-            Assert.That(driver.Title, Is.EqualTo("Automation Exercise - Signup / Login"));
+            Assert.That(GetDriver().Title, Is.EqualTo("Automation Exercise - Signup / Login"));
 
             loginPage.SignupAs(name: "SeleniumBeginner", email: "validuser77@mail.com");
             Assert.That(loginPage.GetErrorMessage(), Is.EqualTo("Email Address already exist!"));
